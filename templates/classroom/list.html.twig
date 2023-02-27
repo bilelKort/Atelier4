@@ -1,0 +1,11 @@
+<table>
+  {% for cl in classrooms %}
+    <tr>
+      <td>{{cl.id}}</td>
+      <td>{{cl.name}}</td>
+      <td><a href="{{ path('updateclassroom', {'id': cl.id}) }}" class="btn btn-primary">Modify</a></td>
+      <td> <a href="{{path('d',{'id':cl.id})}}"> delete </a>  </td>
+
+    </tr>
+  {% endfor %}
+</table>

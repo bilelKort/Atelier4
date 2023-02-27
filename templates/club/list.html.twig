@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>les titres des formations</h1>
+        {% for formation in formations %}
+            <h4>{{ formation.Titre|upper }}</h4>
+        {% endfor %}
+    <hr/>
+
+    <h1>le nombre des formations</h1>
+        <h4>{{ formations|length }}</h4>
+    <hr/>
+
+    <h1>les tires des formations théoriques</h1>
+        {% for formation in formations %}
+            {% if formation.Description == "formation theorique" %}
+                <h4>{{ formation.Titre }}</h4>
+            {% endif %}
+        {% endfor %}
+    <hr/>
+    
+    <h1>le titre de la formation ayant le plus grand nombre de participants</h1>
+        {% set list = [] %}
+        {% for formation in formations %}
+            {% set list = list|merge([formation.nb_participants]) %}
+        {% endfor %}
+        {% for formation in formations %}
+            {% if formation.nb_participants == max(list) %}
+                <h4>{{ formation.Titre }}</h4>
+            {% endif %}
+        {% endfor %}
+    <hr/>
+
+    <h1>nombre total des participants</h1>
+        {% set nb_total = 0 %}
+        {% for formation in formations %}
+            {% set nb_total = nb_total + formation.nb_participants %}
+        {% endfor %}
+        <h4>{{ nb_total }}</h4>
+    <hr/>
+
+    <h1>condition pour le vide</h1>
+        {% for formation in formations %}
+            <h4>{{ formation.ref }} {{ formation.Titre }} {{ formation.Description }} {{ formation.date_debut }} {{ formation.date_fin }} {{ formation.nb_participants }}</h4>
+        {% else %}
+            <h4>formation vide</h4>
+        {% endfor %}
+    <hr/>
+
+    <h1>bouton pour la formation avec aucune participants</h1>
+        {% for formation in formations %}
+            {% if formation.nb_participants == 0 %}
+                <h4 style="display: inline-block">{{ formation.Titre }}</h4>
+                <button style="display: inline-block">participer</button>
+            {% else %}
+                <h4>{{ formation.Titre }}</h4>
+            {% endif %}
+        {% endfor %}
+    <hr/>
+
+    <h1>bouton avec redirection vers detail.html.twig</h1>
+        {% for formation in formations %}
+            {% if formation.nb_participants == 0 %}
+            <div>
+                <h4 style="display: inline-block">{{ formation.Titre }}</h4>
+                <a href="{{ path ('getname', {'nom' : formation.Titre})}}"  style="display: inline-block" >participer</a>
+            </div>
+            {% else %}
+                <h4>{{ formation.Titre }}</h4>
+            {% endif %}
+        {% endfor %}
+    <hr/>
+
+</body>
+</html>
